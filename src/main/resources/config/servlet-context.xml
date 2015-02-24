@@ -31,7 +31,25 @@
         <property name="url" value="jdbc:mysql://localhost:3306/try"/>
         <property name="username" value="try"/>
         <property name="password" value="try"/>
-    </bean>	
+    </bean>
+    
+   <!-- Hibernate 4 SessionFactory Bean definition -->
+    <bean id="hibernate4AnnotatedSessionFactory"
+        class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="annotatedClasses">
+            <list>
+                <value>org.joinmyride.model.User</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect
+                </prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+    </bean>    	
     
     <bean id="sessionFactory"
         class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
@@ -42,12 +60,12 @@
     <tx:annotation-driven />
     <bean id="transactionManager"
         class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory" />
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </bean>
     
 	<bean id="userDao" class="org.joinmyride.dao.UserDAOImpl">
 	    <constructor-arg>
-	        <ref bean="sessionFactory" />
+	        <ref bean="hibernate4AnnotatedSessionFactory" />
 	    </constructor-arg>
 	</bean>    	
 	

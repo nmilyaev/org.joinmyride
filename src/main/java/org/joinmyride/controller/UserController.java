@@ -3,8 +3,8 @@ package org.joinmyride.controller;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.joinmyride.dao.UserDAO;
 import org.joinmyride.model.User;
+import org.joinmyride.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,13 +19,13 @@ import org.springframework.web.servlet.ModelAndView;
 public class UserController {
 	
 	@Autowired
-	private UserDAO userDao;
+	private UserService service;
 	private static Logger LOG = Logger.getLogger(UserController.class);
 	
 	@RequestMapping("/user/list")
 	public ModelAndView list() {
 		LOG.info("................................In the UserList!");
-		List<User> listUsers = userDao.list();
+		List<User> listUsers = service.list();
 		ModelAndView model = new ModelAndView("user/list");
 		model.addObject("userList", listUsers);
 		return model;
@@ -34,7 +34,7 @@ public class UserController {
 	@RequestMapping("/user/edit")
 	public ModelAndView edit(@RequestParam("id") String id) {
 		int idInt = Integer.parseInt(id);
-		User user = userDao.getById(idInt);
+		User user = service.getById(idInt);
 		ModelAndView model = new ModelAndView("user/edit");
 		model.addObject("user", user);
 		LOG.info("................................In the UserEdit! : " + user);
@@ -44,14 +44,14 @@ public class UserController {
 	@RequestMapping("/user/save")
 	public ModelAndView save(@ModelAttribute("user") User user) {
 		LOG.info("................................In the SaveUser! : " + user);
-		userDao.update(user);
+		service.update(user);
 		return new ModelAndView("redirect:/do/user/list");
 	}
 	
 	@RequestMapping("/user/add")
 	public ModelAndView add() {
 		LOG.info("................................In the AddEdit! : ");
-		User user = userDao.add();
+		User user = service.add();
 		return new ModelAndView("redirect:/do/user/edit?id=" + user.getId());
 	}
 
@@ -59,7 +59,7 @@ public class UserController {
 	public ModelAndView delete(@RequestParam("id") String id) {
 		LOG.info("................................In the Delete! : ");
 		int idInt = Integer.parseInt(id);
-		userDao.delete(idInt);
+		service.delete(idInt);
 		return new ModelAndView("redirect:/do/user/list");
 	}
 	

@@ -1,9 +1,25 @@
 package org.joinmyride.model;
 
+import javax.persistence.*;
+
+/**
+ * Entity bean with JPA annotations
+ * Hibernate provides JPA implementation
+ * @author pankaj
+ *
+ */
+@Entity
+@Table(name="users")
 public class User {
+	@Id
+	@Column(name="user_id")
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
+	@Column(name="USERNAME")
 	private String username;
+	@Column(name="PASSWORD")
 	private String password;
+	@Column(name="EMAIL")
 	private String email;
 	
 	public User() {

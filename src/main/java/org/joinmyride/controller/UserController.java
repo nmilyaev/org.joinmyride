@@ -23,9 +23,14 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class UserController {
-	
-	@Autowired
+
 	private UserService service;
+
+	@Autowired(required=true)
+	@Qualifier(value="userService")
+	public void setService(UserService s){
+		this.service = s;
+	}
 	private static Logger LOG = Logger.getLogger(UserController.class);
 
 	@Autowired

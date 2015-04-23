@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.joinmyride.model.User;
 import org.joinmyride.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,9 +18,14 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class UserController {
-	
-	@Autowired
+
 	private UserService service;
+
+	@Autowired(required=true)
+	@Qualifier(value="userService")
+	public void setService(UserService s){
+		this.service = s;
+	}
 	private static Logger LOG = Logger.getLogger(UserController.class);
 	
 	@RequestMapping("/user/list")

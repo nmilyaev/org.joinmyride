@@ -9,9 +9,10 @@ import org.hibernate.SessionFactory;
 import org.joinmyride.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
+@Repository
 public class UserDAOImpl implements UserDAO {
 	private SessionFactory sessionFactory;
 	private static Logger LOG = Logger.getLogger(UserDAOImpl.class);
@@ -20,29 +21,34 @@ public class UserDAOImpl implements UserDAO {
 	public List<User> list() {
 		Session session = this.sessionFactory.getCurrentSession();
 		@SuppressWarnings("unchecked")
-		List<User> listUser = (List<User>) session.createCriteria(User.class)
-		.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		List<User> listUser = (List<User>) session.createCriteria(User.class).list();
 		return listUser;
 	}
 
 	@Override
 	public void update(User obj) {
 		Session session = this.sessionFactory.getCurrentSession();
-		session.update(obj);
+		session.saveOrUpdate(obj);
+		session.saveOrUpdate(obj);
 		LOG.info("User updated successfully, Person Details=" + obj);
 	}
 
 	@Override
 	public User getById(int id) {
-		Session session = this.sessionFactory.openSession();     
-		User p = (User) session.load(User.class, new Integer(id));     
-		return p;
+		Session session = this.sessionFactory.openSession();
+        User u = null;
+        //needed for creating a user
+        if (id == 0)
+            u = new User();
+        else
+		    u = (User) session.get(User.class, new Integer(id));
+		return u;
 	}
 
 	@Override
 	public void delete(int id) {
         Session session = this.sessionFactory.getCurrentSession();
-        User obj = (User) session.load(User.class, new Integer(id));
+        User obj = (User) session.get(User.class, new Integer(id));
         if(null != obj){
             session.delete(obj);
         }

@@ -9,6 +9,18 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Home</title>
+
+<link rel="stylesheet" type="text/css" href="../../css/jqconfirm.css" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+        <!--script src="../../js/jquery.confirm.js"></script-->
+        <script src="../../js/script.js"></script>
+<script>
+$(document).ready(function () {
+  //your code here
+});
+</script>
+
+
 </head>
 <body>
 	<div align="center">
@@ -26,7 +38,8 @@
 					<td>${user.username}</td>
 					<td>${user.email}</td>
 					<td><a href="../user/edit/?id=${user.id}">edit</a></td>
-					<td><a href="../user/delete?id=${user.id}">delete</a></td>
+					<!--td><a href="../../service/confirm_delete?id=${user.id}&yesUrl=../user/delete?id=${user.id}&noUrl=.">delete</a></td-->
+					<td><a class="delete" href="../user/delete?id=${user.id}">delete</a></td>
 				</tr>
 			</c:forEach>
 			

@@ -19,11 +19,6 @@ public class UserService {
     }
 
     @Transactional
-    public User add() {
-        return this.dao.add();
-    }
-
-    @Transactional
     public void update(User o) {
         this.dao.update(o);
     }

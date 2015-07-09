@@ -64,6 +64,6 @@
         <property name="dao" ref="userDao"></property>
     </bean>
 
-	<bean id="userValidator" class="org.joinmyride.validation.UserFormValidator" />
+	<!--bean id="userValidator" class="org.joinmyride.validation.UserFormValidator" /-->
 
 </beans>

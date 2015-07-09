@@ -7,12 +7,15 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.joinmyride.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class UserDAOImpl implements UserDAO {
 	private SessionFactory sessionFactory;
 	private static Logger LOG = Logger.getLogger(UserDAOImpl.class);
+
+	public UserDAOImpl(){};
 
 	public UserDAOImpl(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
@@ -57,5 +60,13 @@ public class UserDAOImpl implements UserDAO {
 		session.persist(obj);
 		LOG.info("Person saved successfully, Person Details=" + obj);
 		return obj;
-	}		
+	}
+
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
 }

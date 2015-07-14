@@ -32,7 +32,7 @@ $(document).ready(function () {
 			<th>Edit</th>
 			<th>Delete</th>
 
-			<c:forEach var="user" items="${userList}" varStatus="status">
+			<c:forEach var="user" items="${users}" varStatus="status">
 				<tr>
 					<td>${status.index + 1}</td>
 					<td>${user.username}</td>

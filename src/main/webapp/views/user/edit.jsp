@@ -22,7 +22,7 @@
 	<div align="center">
 		<h1>Edit User</h1>
 
-		<c:url var="formAction" value="/do/user/save.do"></c:url>
+		<c:url var="formAction" value="/do/user/save"></c:url>
 		<form:form action="${formAction}" commandName="user" method="POST">
 			<table>
 				<c:if test="${!empty user.username}">

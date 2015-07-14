@@ -25,13 +25,9 @@ import org.springframework.ui.Model;
 @Controller
 public class UserController {
 
+    @Autowired(required=true)
 	private UserService service;
 
-	@Autowired(required=true)
-	@Qualifier(value="userService")
-	public void setService(UserService s){
-		this.service = s;
-	}
 	private static Logger LOG = Logger.getLogger(UserController.class);
 
 //	@Autowired
@@ -42,58 +38,55 @@ public class UserController {
 //	private void initBinder(WebDataBinder binder) {
 //		binder.setValidator(validator);
 //	}
-	
-	@RequestMapping("/user/list")
-	public ModelAndView list() {
+
+    @ModelAttribute("user")
+    public User createUserModel(){
+        return new User();
+    }
+
+	@RequestMapping(value = "/user/list", method = RequestMethod.GET)
+	public String list(Model model) {
 		LOG.debug("................................In the UserList!");
-		List<User> listUsers = service.list();
-		ModelAndView model = new ModelAndView("user/list");
-		model.addObject("userList", listUsers);
-		return model;
+		model.addAttribute("users", service.list());
+		return "/user/list";
 	}
-	
+
 	@RequestMapping("/user/edit")
-	public ModelAndView edit(@RequestParam("id") String id) {
+	public String edit(@RequestParam("id") String id, Model model) {
 		int idInt = Integer.parseInt(id);
 		User user = (User)service.getById(idInt);
 		LOG.debug(">>>>>>>>>>>>>>>>>> User is:" + user.getClass() + " : " + User.class.equals(user.getClass()));
-		ModelAndView model = new ModelAndView("user/edit");
-		model.addObject("user", user);
+		model.addAttribute("user", user);
 		LOG.debug("................................In the UserEdit! : " + user);
-		return model;
+		return "user/edit";
 	}
 
-    @RequestMapping(value = "/emp/save", method = RequestMethod.GET)
-    public ModelAndView save(Model model) {
-        LOG.debug("Returning empSave.jsp page");
-        return new ModelAndView("redirect:/do/user/list");
-    }
-
-	@RequestMapping(value = "/user/save.do", method = RequestMethod.POST)
-	public ModelAndView saveDo(@ModelAttribute("user") @Validated User user, BindingResult bindingResult) {
+	@RequestMapping(value = "/user/save", method = RequestMethod.POST)
+	public String saveDo(@ModelAttribute("user") @Validated User user, BindingResult bindingResult) {
 		LOG.debug("................................In the SaveUser! : " + user);
 		LOG.debug("................................bindingResult : " + bindingResult.toString() + " : " + bindingResult.hasErrors());
 		if (bindingResult.hasErrors()) {
 			LOG.debug("Returning empSave.jsp page");
-			return new ModelAndView("redirect:/do/user/edit?id="+user.getId());
+			return "redirect:/do/user/edit?id="+user.getId();
 		}
 		service.update(user);
-		return new ModelAndView("redirect:/do/user/list");
+		return "redirect:/do/user/list";
 	}
 
-	@RequestMapping("/user/add")
-	public ModelAndView add() {
-		LOG.debug("................................In the AddEdit! : ");
+	@RequestMapping(value = "/user/add", method = RequestMethod.GET)
+	public String add(Model model) {
+		LOG.debug("................................In the Add! : ");
 		User user = service.add();
-		return new ModelAndView("redirect:/do/user/edit?id=" + user.getId());
-	}
+        model.addAttribute("user", user);
+        return "redirect:/do/user/edit?id=" + user.getId();
+    }
 
-	@RequestMapping("/user/delete")
-	public ModelAndView delete(@RequestParam("id") String id) {
+	@RequestMapping(value = "/user/delete", method = RequestMethod.GET )
+	public String delete(@RequestParam("id") String id) {
 		LOG.debug("................................In the Delete! : ");
 		int idInt = Integer.parseInt(id);
 		service.delete(idInt);
-		return new ModelAndView("redirect:/do/user/list");
+		return "redirect:/do/user/list";
 	}
 
 }

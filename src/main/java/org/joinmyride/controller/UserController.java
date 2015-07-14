@@ -76,7 +76,7 @@ public class UserController {
 	@RequestMapping("/user/add")
 	public ModelAndView add() {
 		LOG.debug("................................In the AddEdit! : ");
-        User user = new User();
+		User user = service.add();
 		return new ModelAndView("redirect:/do/user/edit?id=" + user.getId());
 	}
 

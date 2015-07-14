@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-@Repository
+@Repository("userDao")
 public class UserDAOImpl implements UserDAO {
 	private SessionFactory sessionFactory;
 	private static Logger LOG = Logger.getLogger(UserDAOImpl.class);

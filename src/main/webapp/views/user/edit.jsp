@@ -9,14 +9,21 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<style>
+.error {
+    color: #ff0000;
+    font-style: italic;
+    font-weight: bold;
+}
+</style>
 <title>editing user: ${user}</title>
 </head>
 <body>
 	<div align="center">
 		<h1>Edit User</h1>
 
-		<c:url var="formAction" value="/do/user/save"></c:url>
-		<form:form action="${formAction}" commandName="user">
+		<c:url var="formAction" value="/do/user/save.do"></c:url>
+		<form:form action="${formAction}" commandName="user" method="POST">
 			<table>
 				<c:if test="${!empty user.username}">
 					<tr>
@@ -32,6 +39,7 @@
 							<spring:message text="User Name" />
 						</form:label></td>
 					<td><form:input path="username" /></td>
+					<td><form:errors path="username" cssClass="error" /></td>
 				</tr>
 				<tr>
 					<td><form:label path="password">

@@ -1,5 +1,7 @@
 package org.joinmyride.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -11,14 +13,17 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name="users")
+//        uniqueConstraints=@UniqueConstraint(columnNames={"username"}))
 public class User implements Serializable {
 	@Id
 	@Column(name="user_id")
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	@Column(name="USERNAME")
+    @NotEmpty //make sure name is not empty
 	private String username;
 	@Column(name="PASSWORD")
+    @NotEmpty //make sure password is not empty
 	private String password;
 	@Column(name="EMAIL")
 	private String email;

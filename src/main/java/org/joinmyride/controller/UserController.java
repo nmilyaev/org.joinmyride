@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.ui.Model;
 
 /**
  * Handles requests for the application home page.
@@ -60,14 +62,20 @@ public class UserController {
 		LOG.debug("................................In the UserEdit! : " + user);
 		return model;
 	}
-	
-	@RequestMapping("/user/save")
-	public ModelAndView save(@ModelAttribute("user") @Validated User user, BindingResult bindingResult) {
+
+    @RequestMapping(value = "/emp/save", method = RequestMethod.GET)
+    public ModelAndView save(Model model) {
+        LOG.debug("Returning empSave.jsp page");
+        return new ModelAndView("redirect:/do/user/list");
+    }
+
+	@RequestMapping(value = "/user/save.do", method = RequestMethod.POST)
+	public ModelAndView saveDo(@ModelAttribute("user") @Validated User user, BindingResult bindingResult) {
 		LOG.debug("................................In the SaveUser! : " + user);
 		LOG.debug("................................bindingResult : " + bindingResult.toString() + " : " + bindingResult.hasErrors());
 		if (bindingResult.hasErrors()) {
 			LOG.debug("Returning empSave.jsp page");
-			return new ModelAndView("redirect:/user/save");
+			return new ModelAndView("redirect:/do/user/edit?id="+user.getId());
 		}
 		service.update(user);
 		return new ModelAndView("redirect:/do/user/list");

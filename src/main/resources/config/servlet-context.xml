@@ -61,7 +61,6 @@
 	</bean>    	
 	
 	  <bean id="userService" class="org.joinmyride.service.UserService">
-        <property name="dao" ref="userDao"></property>
     </bean>
 
 	<!--bean id="userValidator" class="org.joinmyride.validation.UserFormValidator" /-->

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.joinmyride.model.User;
 import org.joinmyride.service.UserService;
+import org.joinmyride.validation.UserFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -30,19 +31,13 @@ public class UserController {
 
 	private static Logger LOG = Logger.getLogger(UserController.class);
 
-//	@Autowired
-//	@Qualifier("userValidator")
-//	private Validator validator;
+	@Autowired
+	private UserFormValidator validator;
 
-//	@InitBinder
-//	private void initBinder(WebDataBinder binder) {
-//		binder.setValidator(validator);
-//	}
-
-    @ModelAttribute("user")
-    public User createUserModel(){
-        return new User();
-    }
+	@InitBinder
+	private void initBinder(WebDataBinder binder) {
+		binder.setValidator(validator);
+	}
 
 	@RequestMapping(value = "/user/list", method = RequestMethod.GET)
 	public String list(Model model) {
@@ -62,12 +57,12 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/user/save", method = RequestMethod.POST)
-	public String saveDo(@ModelAttribute("user") @Validated User user, BindingResult bindingResult) {
+	public String saveDo(@ModelAttribute("user") @Validated User user, BindingResult bindingResult, Model model) {
 		LOG.debug("................................In the SaveUser! : " + user);
 		LOG.debug("................................bindingResult : " + bindingResult.toString() + " : " + bindingResult.hasErrors());
 		if (bindingResult.hasErrors()) {
 			LOG.debug("Returning empSave.jsp page");
-			return "redirect:/do/user/edit?id="+user.getId();
+			return "/user/edit";
 		}
 		service.update(user);
 		return "redirect:/do/user/list";

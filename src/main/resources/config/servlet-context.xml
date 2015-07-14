@@ -63,6 +63,12 @@
 	  <bean id="userService" class="org.joinmyride.service.UserService">
     </bean>
 
+    <bean id="messageSource"
+                class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:message" />
+        <property name="defaultEncoding" value="UTF-8" />
+    </bean>
+
 	<!--bean id="userValidator" class="org.joinmyride.validation.UserFormValidator" /-->
 
 </beans>

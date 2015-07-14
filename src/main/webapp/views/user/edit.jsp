@@ -25,15 +25,13 @@
 		<c:url var="formAction" value="/do/user/save"></c:url>
 		<form:form action="${formAction}" commandName="user" method="POST">
 			<table>
-				<c:if test="${!empty user.username}">
-					<tr>
+				<tr>
 						<td><form:label path="id">
 								<spring:message text="ID" />
 							</form:label></td>
 						<td><form:input path="id" readonly="true" size="8"
-								disabled="true" /> <form:hidden path="id" /></td>
-					</tr>
-				</c:if>
+								disabled="true" /><form:hidden path="id" /></td>
+				</tr>
 				<tr>
 					<td><form:label path="username">
 							<spring:message text="User Name" />

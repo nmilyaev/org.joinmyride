@@ -5,7 +5,9 @@ import org.joinmyride.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.dao.DataIntegrityViolationException;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -23,7 +25,15 @@ public class UserService {
         return this.dao.add();
     }
 
-    public void update(User o) {
+    /**
+     * Updates user record
+     * @param o
+     * @throws DataIntegrityViolationException - that occurs when supplied
+     * user email is not unique (constr_email_uniq) gets violated.
+     * Throw the error and process it in the controller
+     *
+     */
+    public void update(User o) throws DataIntegrityViolationException {
         this.dao.update(o);
     }
 

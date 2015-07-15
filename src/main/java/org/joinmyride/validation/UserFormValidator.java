@@ -17,10 +17,6 @@ import org.springframework.validation.Validator;
 @Component
 public class UserFormValidator implements Validator {
 
-//    @Autowired
-//    @Qualifier("emailValidator")
-//    EmailValidator emailValidator;
-
     @Autowired
     UserService userService;
 
@@ -34,23 +30,25 @@ public class UserFormValidator implements Validator {
 
         User user = (User) target;
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty.userForm.name");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty.userForm.email");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty.userForm.password");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "NotEmpty.userForm.confirmPassword");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "userForm.name.empty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "userForm.password.empty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "userForm.confirmPassword.empty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "userForm.email.empty");
 
-//        if(!emailValidator.valid(user.getEmail())){
-//            errors.rejectValue("email", "Pattern.userForm.email");
-//        }
-
-        if(user.getId()==0){
-            errors.rejectValue("number", "NotEmpty.userForm.number");
+        if (!errors.hasFieldErrors("confirmPassword")) {
+            if (!user.getPassword().equals(user.getConfirmPassword())) {
+                errors.rejectValue("confirmPassword", "userForm.confirmPassword.diff");
+            }
         }
-
-        if (!user.getPassword().equals(user.getConfirmPassword())) {
-            errors.rejectValue("confirmPassword", "Diff.userform.confirmPassword");
-        }
-
     }
 
+    /**
+     * Use this method to additionally set errors depending on processing elsewhere
+     * A good example - unique email violation occurring during the commit.
+     * @param target - name of the error target
+     * @param errors - errors of this Validator
+     */
+    public void setValidationError(String target, Errors errors){
+        errors.rejectValue(target, "userForm.email.nonUnique");
+    }
 }

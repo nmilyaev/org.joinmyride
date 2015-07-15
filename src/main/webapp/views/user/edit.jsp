@@ -58,6 +58,7 @@ ${context}
 							<spring:message text="Email" />
 						</form:label></td>
 					<td><form:input path="email" type="email"/></td>
+					<td><form:errors path="email" cssClass="error" /></td>
 				</tr>
 				<tr>
 					<td>

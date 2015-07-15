@@ -8,8 +8,10 @@ import org.joinmyride.service.UserService;
 import org.joinmyride.validation.UserFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -41,7 +43,6 @@ public class UserController {
 
 	@RequestMapping(value = "/user/list", method = RequestMethod.GET)
 	public String list(Model model) {
-		LOG.debug("................................In the UserList!");
 		model.addAttribute("users", service.list());
 		return "/user/list";
 	}
@@ -50,27 +51,29 @@ public class UserController {
 	public String edit(@RequestParam("id") String id, Model model) {
 		int idInt = Integer.parseInt(id);
 		User user = (User)service.getById(idInt);
-		LOG.debug(">>>>>>>>>>>>>>>>>> User is:" + user.getClass() + " : " + User.class.equals(user.getClass()));
 		model.addAttribute("user", user);
-		LOG.debug("................................In the UserEdit! : " + user);
 		return "user/edit";
 	}
 
 	@RequestMapping(value = "/user/save", method = RequestMethod.POST)
 	public String saveDo(@ModelAttribute("user") @Validated User user, BindingResult bindingResult, Model model) {
-		LOG.debug("................................In the SaveUser! : " + user);
-		LOG.debug("................................bindingResult : " + bindingResult.toString() + " : " + bindingResult.hasErrors());
 		if (bindingResult.hasErrors()) {
 			LOG.debug("Returning empSave.jsp page");
 			return "/user/edit";
 		}
-		service.update(user);
+        try{
+		    service.update(user);
+        }
+        catch (DataIntegrityViolationException e){
+            LOG.debug("...................: " + e.getMessage());
+            validator.setValidationError("email", bindingResult);
+            return "/user/edit";
+        }
 		return "redirect:/do/user/list";
 	}
 
 	@RequestMapping(value = "/user/add", method = RequestMethod.GET)
 	public String add(Model model) {
-		LOG.debug("................................In the Add! : ");
 		User user = service.add();
         model.addAttribute("user", user);
         return "redirect:/do/user/edit?id=" + user.getId();
@@ -78,7 +81,6 @@ public class UserController {
 
 	@RequestMapping(value = "/user/delete", method = RequestMethod.GET )
 	public String delete(@RequestParam("id") String id) {
-		LOG.debug("................................In the Delete! : ");
 		int idInt = Integer.parseInt(id);
 		service.delete(idInt);
 		return "redirect:/do/user/list";

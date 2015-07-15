@@ -12,14 +12,14 @@ import java.io.Serializable;
  *
  */
 @Entity
-@Table(name="users")
+@Table(name="user")
 //        uniqueConstraints=@UniqueConstraint(columnNames={"username"}))
 public class User implements Serializable {
 	@Id
 	@Column(name="user_id")
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
-	@Column(name="USERNAME")
+	@Column(name="USER_NAME")
     @NotEmpty //make sure name is not empty
 	private String username;
 	@Column(name="PASSWORD")
@@ -27,9 +27,9 @@ public class User implements Serializable {
 	private String password;
     @Transient
     private String confirmPassword;
-	@Column(name="EMAIL")
+	@Column(name="EMAIL", unique = true)
 	private String email;
-	
+
 	public User() {
 		this(0, "username", "password", "email");
 	}

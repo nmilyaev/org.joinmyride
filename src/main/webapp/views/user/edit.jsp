@@ -5,7 +5,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<c:set var="context"><%=getServletContext().getContextPath()%></c:set>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -21,7 +21,7 @@
 <body>
 	<div align="center">
 		<h1>Edit User</h1>
-
+${context}
 		<c:url var="formAction" value="/do/user/save"></c:url>
 		<form:form action="${formAction}" commandName="user" method="POST">
 			<table>
@@ -49,14 +49,15 @@
 					<td><form:label path="email">
 							<spring:message text="Email" />
 						</form:label></td>
-					<td><form:input path="email" /></td>
+					<td><form:input path="email" type="email"/></td>
 				</tr>
 				<tr>
-					<td colspan="2"><c:if test="${!empty user.username}">
-							<input type="submit" value="<spring:message text="Edit User"/>" />
-						</c:if> <c:if test="${empty user.username}">
-							<input type="cancel" value="<spring:message text="Cancel"/>" />
-						</c:if></td>
+					<td>
+							<input type="submit" value="<spring:message text="Save"/>" />
+						</td>
+						<td>
+							<button type="button" onclick="window.location='${context}/do/user/list'"><spring:message text="Cancel"/></button>
+						</td>
 				</tr>
 			</table>
 		</form:form>

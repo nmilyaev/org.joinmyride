@@ -43,8 +43,16 @@ ${context}
 					<td><form:label path="password">
 							<spring:message text="User Password" />
 						</form:label></td>
-					<td><form:input path="password" /></td>
+					<td><form:input path="password" type="password"/></td>
+					<td><form:errors path="password" cssClass="error" /></td>
 				</tr>
+				<tr>
+                	<td><form:label path="confirmPassword">
+                		<spring:message text="Confirm Password" />
+                    	</form:label></td>
+                		<td><form:input path="confirmPassword" type="password"/></td>
+                		<td><form:errors path="confirmPassword" cssClass="error" /></td>
+                </tr>
 				<tr>
 					<td><form:label path="email">
 							<spring:message text="Email" />

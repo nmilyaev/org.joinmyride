@@ -25,6 +25,8 @@ public class User implements Serializable {
 	@Column(name="PASSWORD")
     @NotEmpty //make sure password is not empty
 	private String password;
+    @Transient
+    private String confirmPassword;
 	@Column(name="EMAIL")
 	private String email;
 	
@@ -67,6 +69,10 @@ public class User implements Serializable {
 	public String getEmail() {
 		return email;
 	}
+
+    public String getConfirmPassword() {   return confirmPassword; }
+
+    public void setConfirmPassword(String confirmPassword) { this.confirmPassword = confirmPassword; }
 
 	public void setEmail(String email) {
 		this.email = email;

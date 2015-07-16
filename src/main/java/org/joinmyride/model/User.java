@@ -16,30 +16,39 @@ import java.io.Serializable;
 //        uniqueConstraints=@UniqueConstraint(columnNames={"username"}))
 public class User implements Serializable {
 	@Id
-	@Column(name="user_id")
+	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	@Column(name="USER_NAME")
     @NotEmpty //make sure name is not empty
-	private String username;
+	private String userName;
 	@Column(name="PASSWORD")
-    @NotEmpty //make sure password is not empty
 	private String password;
     @Transient
     private String confirmPassword;
 	@Column(name="EMAIL", unique = true)
 	private String email;
+    @Column(name="FULL_NAME")
+    private String fullName;
+    @Column(name="ABOUT")
+    private String about;
+    @Column(name="DOB")
+    private String dob;
+    @Column(name="PHOTO")
+    private String photo;
 
-	public User() {
-		this(0, "username", "password", "email");
+    public User() {
+		this(0, "username", "password", "email", "full name");
 	}
 	
-	public User(int id, String username, String password, String email) {
+	public User(int id, String username, String password, String email, String full_name) {
 		super();
 		this.id = id;
-		this.username = username;
+		this.userName = username;
 		this.password = password;
 		this.email = email;
+        this.fullName = full_name;
+
 	}
 
 	public int getId() {
@@ -50,12 +59,12 @@ public class User implements Serializable {
 		this.id = id;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getPassword() {
@@ -78,9 +87,41 @@ public class User implements Serializable {
 		this.email = email;
 	}
 
-	@Override
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
+    }
+
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    @Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", email=" + email
+		return "User [id=" + id + ", username=" + userName + ", email=" + email
 				+ "]";
 	}
 

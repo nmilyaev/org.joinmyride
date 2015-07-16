@@ -30,14 +30,20 @@ public class UserFormValidator implements Validator {
 
         User user = (User) target;
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "userForm.name.empty");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "userForm.password.empty");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "userForm.confirmPassword.empty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userName", "userForm.name.empty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "userForm.email.empty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "fullName", "userForm.fullName.empty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "dob", "userForm.dob.empty");
 
-        if (!errors.hasFieldErrors("confirmPassword")) {
-            if (!user.getPassword().equals(user.getConfirmPassword())) {
-                errors.rejectValue("confirmPassword", "userForm.confirmPassword.diff");
+        //only prompt new users for passwords
+        if (user.getId() == 0) {
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "userForm.password.empty");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "userForm.confirmPassword.empty");
+
+            if (!errors.hasFieldErrors("confirmPassword")) {
+                if (!user.getPassword().equals(user.getConfirmPassword())) {
+                    errors.rejectValue("confirmPassword", "userForm.confirmPassword.diff");
+                }
             }
         }
     }

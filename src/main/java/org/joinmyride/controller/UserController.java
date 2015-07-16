@@ -64,7 +64,7 @@ public class UserController {
         try{
 		    service.update(user);
         }
-        catch (DataIntegrityViolationException e){
+        catch (Exception e){
             LOG.debug("...................: " + e.getMessage());
             validator.setValidationError("email", bindingResult);
             return "/user/edit";
@@ -72,7 +72,7 @@ public class UserController {
 		return "redirect:/do/user/list";
 	}
 
-	@RequestMapping(value = "/user/add", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/new", method = RequestMethod.GET)
 	public String add(Model model) {
 		User user = service.add();
         model.addAttribute("user", user);

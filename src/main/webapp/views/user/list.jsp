@@ -35,7 +35,7 @@ $(document).ready(function () {
 			<c:forEach var="user" items="${users}" varStatus="status">
 				<tr>
 					<td>${status.index + 1}</td>
-					<td>${user.username}</td>
+					<td>${user.userName}</td>
 					<td>${user.email}</td>
 					<td><a href="../user/edit/?id=${user.id}">edit</a></td>
 					<!--td><a href="../../service/confirm_delete?id=${user.id}&yesUrl=../user/delete?id=${user.id}&noUrl=.">delete</a></td-->
@@ -44,7 +44,7 @@ $(document).ready(function () {
 			</c:forEach>
 			
 		</table>
-		<a href="../user/add">Add User</a>		
+		<a href="../user/new">Add User</a>
 	</div>
 </body>
 </html>

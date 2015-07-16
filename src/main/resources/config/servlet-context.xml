@@ -60,7 +60,7 @@
 		<property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
 	</bean>    	
 	
-	  <bean id="userService" class="org.joinmyride.service.UserService">
+	<bean id="userService" class="org.joinmyride.service.UserService">
     </bean>
 
     <bean id="messageSource"

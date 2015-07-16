@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.hibernate.exception.ConstraintViolationException;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -22,7 +23,7 @@ public class UserService {
     private UserDAO dao;
 
     public User add() {
-        return this.dao.add();
+        return new User();
     }
 
     /**
@@ -33,7 +34,7 @@ public class UserService {
      * Throw the error and process it in the controller
      *
      */
-    public void update(User o) throws DataIntegrityViolationException {
+    public void update(User o) throws DataIntegrityViolationException, ConstraintViolationException {
         this.dao.update(o);
     }
 

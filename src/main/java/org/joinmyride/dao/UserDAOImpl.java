@@ -30,7 +30,6 @@ public class UserDAOImpl implements UserDAO {
 	public void update(User obj) {
 		Session session = this.sessionFactory.getCurrentSession();
 		session.saveOrUpdate(obj);
-		session.saveOrUpdate(obj);
 		LOG.info("User updated successfully, Person Details=" + obj);
 	}
 
